@@ -7,15 +7,18 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect_to user, notice: 'Logado!'
+      cookies[:auth_token] = user.auth_token
+      redirect_to user
+      flash[:success] = 'Logado com sucesso!'
     else
-      redirect_to login_url, notice:"Informações invalidas"
+      redirect_to login_url
+      flash[:error] ="Usuário inexistente ou senha incorreta"
     end
   end
 
   def destroy
-    session[:user_id] = nil
-    redirect_to root_url, notice: "Saída efetuada"
+    cookies.delete(:auth_token)
+    redirect_to root_url
   end
+
 end

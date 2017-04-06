@@ -17,4 +17,13 @@
   <strong>Idade:</strong>
   <%= @user.auth_token %>
 </p>
+
+<% if logged_in? && current_user == @user %>
+    <%= link_to "Editar Perfil", edit_user_path %>
+  <% else %>
+  <p>
+    Não logado
+  </p>
+<% end %>
+
 <%= link_to 'Back', users_path %>

@@ -14,6 +14,13 @@
         <td><%= user.name %></td>
         <td><%= user.age %></td>
         <td><%= link_to 'Show', user %></td>
+        <% if logged_in? && current_user == user %>
+          <td>
+            <%= link_to "Editar Perfil", edit_user_path(user) %>
+          </td>
+        <% else %>
+          <td>Não é possivel editar</td>
+        <% end %>
         <td><%= link_to 'Remove', user, method: :delete,
             data: { confirm: 'Tem certeza que deseja apagar este usuário?' } %>
         </td>
@@ -25,4 +32,8 @@
 <br>
 
 <%= link_to 'Criar usuário', new_user_path %>
-<%= link_to 'Logar', login_path %>
+<% if logged_in? %>
+    <%= link_to "Log Out", logout_path %>
+  <% else %>
+  <%= link_to 'Logar', login_path %>
+<% end %>
